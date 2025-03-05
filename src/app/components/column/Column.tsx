@@ -2,6 +2,8 @@
 
 import React from "react"
 import { Draggable, Droppable } from "@hello-pangea/dnd"
+import { useDispatch } from "react-redux"
+import { setAddItems } from "@/redux/features/itemsDataSlice"
 
 interface ColumnProps {
   itemsOrder: string[]
@@ -10,7 +12,11 @@ interface ColumnProps {
 }
 
 const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
-  // console.log(ITEMS)
+  console.log(id)
+
+  const dispatch = useDispatch()
+  const itemsLength = Object.keys(ITEMS).length
+
   return (
     <Droppable droppableId={id}>
       {(provided) => (
@@ -31,21 +37,28 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
                     ref={provided.innerRef}
                   >
                     <p className="font-bold text-lg ">{item?.title}</p>
-                    <p className="font-bold text-lg ">{item?.id}</p>
-                    <button
-                      onClick={() => {
-                        localStorage.removeItem(`ITEMS["${item}"]`)
-                        console.log("removed")
-                      }}
-                    >
-                      remove
-                    </button>
                   </div>
                 )}
               </Draggable>
             )
           })}
           {provided.placeholder}
+          <div
+            onClick={() => {
+              dispatch(
+                setAddItems({
+                  // columnId: id,
+                  id: `item-${itemsLength + 1}`,
+                  title: `Item ${itemsLength + 1}`,
+                  col: id,
+                })
+              )
+            }}
+            className="p-2 bg-green-500 rounded-md text-white text-center cursor-pointer"
+            style={{ width: "fit-content" }}
+          >
+            Add item
+          </div>
         </div>
       )}
     </Droppable>

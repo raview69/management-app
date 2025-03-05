@@ -16,7 +16,8 @@ export default function Home() {
   )
   const [columnsOrder, setColumnsOrder] = useState(columnsOrderState)
   const [data, setData] = useState(columns)
-
+  console.log(items)
+  console.log(columns)
   const handleDragDrop = (results: any) => {
     const { source, destination, type } = results
 

@@ -26,6 +26,8 @@ const INITIAL_COL_DATA: { [key: string]: ColumnData } = {
   },
 }
 
+console.log(INITIAL_COL_DATA["column-1"].itemsOrder)
+
 const ITEMS = {
   "item-1": {
     id: "item-1",
@@ -76,11 +78,14 @@ const itemsDataSlice = createSlice({
   reducers: {
     setAddItems: (
       state,
-      action: { payload: { id: string; title: string } }
+      action: { payload: { id: string; title: string; col: string } }
     ) => {
-      const { id, title } = action.payload
-      state.items[id as keyof typeof state.items] = { id, title }
-      state.columns[id].itemsOrder.push(id)
+      const { id, title, col } = action.payload
+      state.items[id as keyof typeof state.items] = {
+        id,
+        title,
+      }
+      state.columns[col].itemsOrder.push(id)
     },
   },
 })
