@@ -30,38 +30,56 @@ const ITEMS = {
   "item-1": {
     id: "item-1",
     title: "Item 1",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-2": {
     id: "item-2",
     title: "Item 2",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-3": {
     id: "item-3",
     title: "Item 3",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-4": {
     id: "item-4",
     title: "Item 4",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-5": {
     id: "item-5",
     title: "Item 5",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-6": {
     id: "item-6",
     title: "Item 6",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-7": {
     id: "item-7",
     title: "Item 7",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-8": {
     id: "item-8",
     title: "Item 8",
+    description: "This is item 1",
+    priority: "high",
   },
   "item-9": {
     id: "item-9",
     title: "Item 9",
+    description: "This is item 1",
+    priority: "high",
   },
 }
 
@@ -76,12 +94,22 @@ const itemsDataSlice = createSlice({
   reducers: {
     setAddItems: (
       state,
-      action: { payload: { id: string; title: string; col: string } }
+      action: {
+        payload: {
+          id: string
+          title: string
+          col: string
+          description: string
+          priority: string
+        }
+      }
     ) => {
-      const { id, title, col } = action.payload
+      const { id, title, col, description, priority } = action.payload
       state.items[id as keyof typeof state.items] = {
         id,
         title,
+        description,
+        priority,
       }
       state.columns[col].itemsOrder.push(id)
     },

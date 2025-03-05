@@ -8,7 +8,10 @@ import { setAddItems, setRemoveItems } from "@/redux/features/itemsDataSlice"
 interface ColumnProps {
   itemsOrder: string[]
   id: string
-  ITEMS: Record<string, { id: string; title: string }>
+  ITEMS: Record<
+    string,
+    { id: string; title: string; description: string; priority: string }
+  >
 }
 
 const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
@@ -36,6 +39,8 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
                       ref={provided.innerRef}
                     >
                       <p className="font-bold text-lg ">{item?.title}</p>
+                      <p className="font-bold text-lg ">{item?.description}</p>
+                      <p className="font-bold text-lg ">{item?.priority}</p>
                       <div
                         onClick={() => {
                           dispatch(
@@ -63,6 +68,8 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
                   id: `item-${itemsLength + 1}`,
                   title: `Item ${itemsLength + 1}`,
                   col: id,
+                  description: `This is ${itemsLength + 1}`,
+                  priority: "high",
                 })
               )
             }}
