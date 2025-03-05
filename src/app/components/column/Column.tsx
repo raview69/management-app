@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import { Draggable, Droppable } from "@hello-pangea/dnd"
 
@@ -8,6 +10,7 @@ interface ColumnProps {
 }
 
 const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
+  // console.log(ITEMS)
   return (
     <Droppable droppableId={id}>
       {(provided) => (
@@ -19,7 +22,7 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
             const item = ITEMS[item_id]
 
             return (
-              <Draggable draggableId={item.id} index={index} key={item.id}>
+              <Draggable draggableId={item?.id} index={index} key={item?.id}>
                 {(provided) => (
                   <div
                     className="border-b  rounded-md flex flex-col p-2 m-2 bg-pink-500"
@@ -27,7 +30,16 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                   >
-                    <p className="font-bold text-lg ">{item.title}</p>
+                    <p className="font-bold text-lg ">{item?.title}</p>
+                    <p className="font-bold text-lg ">{item?.id}</p>
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem(`ITEMS["${item}"]`)
+                        console.log("removed")
+                      }}
+                    >
+                      remove
+                    </button>
                   </div>
                 )}
               </Draggable>

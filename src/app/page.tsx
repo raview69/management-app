@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useState } from "react"
@@ -5,75 +6,17 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Column from "@/app/components/column/Column"
 import { NoSsr } from "./pages/NoSSR"
 
-const INITIAL_COLUMN_ORDER = ["column-1", "column-2", "column-3"]
-
-const INITIAL_COL_DATA = {
-  "column-1": {
-    id: "column-1",
-    title: "Column 1",
-    itemsOrder: ["item-1", "item-2", "item-3"],
-  },
-  "column-2": {
-    id: "column-2",
-    title: "Column 2",
-    itemsOrder: ["item-4", "item-5"],
-  },
-  "column-3": {
-    id: "column-3",
-    title: "Column 3",
-    itemsOrder: ["item-6", "item-7", "item-8"],
-  },
-}
-
-const ITEMS = {
-  "item-1": {
-    id: "item-1",
-    title: "Item 1",
-  },
-  "item-2": {
-    id: "item-2",
-    title: "Item 2",
-  },
-  "item-3": {
-    id: "item-3",
-    title: "Item 3",
-  },
-  "item-4": {
-    id: "item-4",
-    title: "Item 4",
-  },
-  "item-5": {
-    id: "item-5",
-    title: "Item 5",
-  },
-  "item-6": {
-    id: "item-6",
-    title: "Item 6",
-  },
-  "item-7": {
-    id: "item-7",
-    title: "Item 7",
-  },
-  "item-8": {
-    id: "item-8",
-    title: "Item 8",
-  },
-}
-
-// export async function getServerSideProps() {
-//   resetServerContext()
-//   return {
-//     props: {},
-//   }
-// }
+import { useSelector } from "react-redux"
 
 export default function Home() {
-  const [columnsOrder, setColumnsOrder] = useState(INITIAL_COLUMN_ORDER)
-  const [data, setData] = useState<{
-    [key: string]: (typeof INITIAL_COL_DATA)["column-1"]
-  }>(INITIAL_COL_DATA)
+  const { columns, items, columnsOrderState } = useSelector(
+    (state: {
+      itemsData: { columns: any; items: any; columnsOrderState: any }
+    }) => state?.itemsData
+  )
+  const [columnsOrder, setColumnsOrder] = useState(columnsOrderState)
+  const [data, setData] = useState(columns)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDragDrop = (results: any) => {
     const { source, destination, type } = results
 
@@ -89,17 +32,12 @@ export default function Home() {
     const destinationIndex = destination.index
 
     if (type === "COLUMN") {
-      //dragging the columns
       const reorderedColumns = [...columnsOrder]
       const [removedItem] = reorderedColumns.splice(sourceIndex, 1)
       reorderedColumns.splice(destinationIndex, 0, removedItem)
-
       setColumnsOrder(reorderedColumns)
-      //save the reordered column in database
-
       return
     } else {
-      //changes within same column
       if (source.droppableId === destination.droppableId) {
         const source_col_id = source.droppableId
         const new_items_id_collection = [
@@ -107,16 +45,19 @@ export default function Home() {
         ]
         const [deleted_item_id] = new_items_id_collection.splice(sourceIndex, 1)
         new_items_id_collection.splice(destinationIndex, 0, deleted_item_id)
-        const new_data = { ...data }
-        new_data[source_col_id as keyof typeof data].itemsOrder =
-          new_items_id_collection
-        setData(new_data)
 
-        //update the db
+        // Create a deep copy and update only the specific column
+        const new_data = {
+          ...data,
+          [source_col_id]: {
+            ...data[source_col_id as keyof typeof data],
+            itemsOrder: new_items_id_collection,
+          },
+        }
+        setData(new_data)
       } else {
-        //changes within different col
-        const source_col_id = source.droppableId,
-          dest_col_id = destination.droppableId
+        const source_col_id = source.droppableId
+        const dest_col_id = destination.droppableId
 
         const new_source_items_id_collc = [
           ...data[source_col_id as keyof typeof data].itemsOrder,
@@ -128,17 +69,21 @@ export default function Home() {
           sourceIndex,
           1
         )
-
         new_dest_items_id_collc.splice(destinationIndex, 0, deleted_item_id)
-        const new_data = { ...data }
-        new_data[source_col_id as keyof typeof data].itemsOrder =
-          new_source_items_id_collc
-        new_data[dest_col_id as keyof typeof data].itemsOrder =
-          new_dest_items_id_collc
 
+        // Create a deep copy and update both columns
+        const new_data = {
+          ...data,
+          [source_col_id]: {
+            ...data[source_col_id as keyof typeof data],
+            itemsOrder: new_source_items_id_collc,
+          },
+          [dest_col_id]: {
+            ...data[dest_col_id as keyof typeof data],
+            itemsOrder: new_dest_items_id_collc,
+          },
+        }
         setData(new_data)
-
-        //update the db
       }
     }
   }
@@ -147,7 +92,7 @@ export default function Home() {
     <NoSsr>
       <div className="flex h-full w-full items-center  flex-col">
         <p className="font-bold text-4xl bg-gradient-to-r from-purple-600 via-blue-400 to-indigo-400  mt-10 text-transparent bg-clip-text">
-          React Beautiful DND Example
+          MANAGMENET APP
         </p>
         {/* Set up DragDropContext */}
         <DragDropContext onDragEnd={handleDragDrop}>
@@ -160,7 +105,7 @@ export default function Home() {
                 ref={provided.innerRef}
               >
                 {/* Map through columnsOrder to render each column */}
-                {columnsOrder.map((colId, index) => {
+                {columnsOrder.map((colId: string, index: number) => {
                   const columnData = data[colId]
                   return (
                     <Draggable
@@ -184,7 +129,7 @@ export default function Home() {
                           </div>
 
                           {/* Render items within the column */}
-                          <Column {...columnData} ITEMS={ITEMS} />
+                          <Column {...columnData} ITEMS={items} />
                         </div>
                       )}
                     </Draggable>
