@@ -4,8 +4,8 @@
 import { useState, useEffect } from "react"
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Column from "@/app/components/column/Column"
-import { NoSsr } from "./pages/NoSSR"
 import { useSelector } from "react-redux"
+import ReactModal from "./components/modal/ReactModal"
 
 export default function Home() {
   const { columns, items, columnsOrderState } = useSelector(
@@ -15,8 +15,7 @@ export default function Home() {
   )
   const [columnsOrder, setColumnsOrder] = useState(columnsOrderState)
   const [data, setData] = useState(columns)
-  console.log(items)
-  console.log(columns)
+  const [modalIsOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     setColumnsOrder(columnsOrderState)
@@ -95,58 +94,71 @@ export default function Home() {
   }
 
   return (
-    <NoSsr>
-      <div className="flex h-full w-full items-center  flex-col">
-        <p className="font-bold text-4xl bg-gradient-to-r from-purple-600 via-blue-400 to-indigo-400  mt-10 text-transparent bg-clip-text">
-          MANAGMENET APP
-        </p>
-        {/* Set up DragDropContext */}
-        <DragDropContext onDragEnd={handleDragDrop}>
-          {/* Render Droppable area for columns */}
-          <Droppable droppableId="ROOT" type="COLUMN" direction="horizontal">
-            {(provided) => (
-              <div
-                className="flex  items-center w-full md:max-w-6xl justify-center border min-h-96 py-4 mt-6 rounded-md overflow-x-scroll md:overflow-hidden"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {/* Map through columnsOrder to render each column */}
-                {columnsOrder.map((colId: string, index: number) => {
-                  const columnData = data[colId]
-                  return (
-                    <Draggable
-                      draggableId={columnData.id}
-                      key={columnData.id}
-                      index={index}
-                    >
-                      {(provided) => (
+    <div className="flex h-full w-full items-center  flex-col">
+      <p className="font-bold text-4xl bg-gradient-to-r from-purple-600 via-blue-400 to-indigo-400  mt-10 text-transparent bg-clip-text">
+        MANAGMENET APP
+      </p>
+      {/* Set up DragDropContext */}
+      <DragDropContext onDragEnd={handleDragDrop}>
+        {/* Render Droppable area for columns */}
+        <Droppable droppableId="ROOT" type="COLUMN" direction="horizontal">
+          {(provided) => (
+            <div
+              className="flex  items-center w-full md:max-w-6xl justify-center border min-h-96 py-4 mt-6 rounded-md overflow-x-scroll md:overflow-hidden"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {/* Map through columnsOrder to render each column */}
+              {columnsOrder.map((colId: string, index: number) => {
+                const columnData = data[colId]
+                return (
+                  <Draggable
+                    draggableId={columnData.id}
+                    key={columnData.id}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <div
+                        className="rounded-md border flex flex-col max-w-xs mx-3"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                      >
                         <div
-                          className="rounded-md border flex flex-col max-w-xs mx-3"
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="flex items-center justify-between w-80 gap-2 hover:bg-gray-600 p-4 border-b border-b-gray-700 rounded-t-md"
                         >
-                          <div
-                            {...provided.dragHandleProps}
-                            className="flex items-center justify-between w-80 gap-2 hover:bg-gray-600 p-4 border-b border-b-gray-700 rounded-t-md"
-                          >
-                            <p className="text-xl font-bold">
-                              {columnData.title}
-                            </p>
-                          </div>
-
-                          {/* Render items within the column */}
-                          <Column {...columnData} ITEMS={items} />
+                          <p className="text-xl font-bold">
+                            {columnData.title}
+                          </p>
                         </div>
-                      )}
-                    </Draggable>
-                  )
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+
+                        {/* Render items within the column */}
+                        <Column {...columnData} ITEMS={items} />
+                      </div>
+                    )}
+                  </Draggable>
+                )
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      <div>
+        <div
+          onClick={() => {
+            setIsOpen(true)
+          }}
+        >
+          openModal
+        </div>
+        <ReactModal
+          modalIsOpen={modalIsOpen}
+          modalClose={() => setIsOpen(false)}
+        >
+          <div>dsada</div>
+        </ReactModal>
       </div>
-    </NoSsr>
+    </div>
   )
 }

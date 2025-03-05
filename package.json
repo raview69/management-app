@@ -12,6 +12,7 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@mui/material": "^6.4.6",
     "@reduxjs/toolkit": "^2.6.0",
+    "@types/react-modal": "^3.16.3",
     "lodash": "^4.17.21",
     "next": "15.2.1",
     "ra-data-fakerest": "^5.6.2",
@@ -19,6 +20,7 @@
     "react-admin": "^5.6.2",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
+    "react-modal": "^3.16.3",
     "react-query": "^3.39.3",
     "react-redux": "^9.2.0"
   },
