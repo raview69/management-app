@@ -5,7 +5,6 @@ import { useState, useEffect } from "react"
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Column from "@/app/components/column/Column"
 import { NoSsr } from "./pages/NoSSR"
-
 import { useSelector } from "react-redux"
 
 export default function Home() {

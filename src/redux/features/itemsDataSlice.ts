@@ -22,7 +22,7 @@ const INITIAL_COL_DATA: { [key: string]: ColumnData } = {
   "column-3": {
     id: "column-3",
     title: "DONE",
-    itemsOrder: ["item-6", "item-7", "item-8"],
+    itemsOrder: ["item-6", "item-7", "item-8", "item-9"],
   },
 }
 
@@ -85,8 +85,18 @@ const itemsDataSlice = createSlice({
       }
       state.columns[col].itemsOrder.push(id)
     },
+    setRemoveItems: (
+      state,
+      action: { payload: { id: string; col: string } }
+    ) => {
+      const { id, col } = action.payload
+      delete state.items[id as keyof typeof state.items]
+      state.columns[col].itemsOrder = state.columns[col].itemsOrder.filter(
+        (itemId) => itemId !== id
+      )
+    },
   },
 })
 
-export const { setAddItems } = itemsDataSlice.actions
+export const { setAddItems, setRemoveItems } = itemsDataSlice.actions
 export default itemsDataSlice.reducer

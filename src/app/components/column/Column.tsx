@@ -3,7 +3,7 @@
 import React from "react"
 import { Draggable, Droppable } from "@hello-pangea/dnd"
 import { useDispatch } from "react-redux"
-import { setAddItems } from "@/redux/features/itemsDataSlice"
+import { setAddItems, setRemoveItems } from "@/redux/features/itemsDataSlice"
 
 interface ColumnProps {
   itemsOrder: string[]
@@ -12,8 +12,6 @@ interface ColumnProps {
 }
 
 const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
-  console.log(id)
-
   const dispatch = useDispatch()
   const itemsLength = Object.keys(ITEMS).length
 
@@ -28,18 +26,32 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
             const item = ITEMS[item_id]
 
             return (
-              <Draggable draggableId={item?.id} index={index} key={item?.id}>
-                {(provided) => (
-                  <div
-                    className="border-b  rounded-md flex flex-col p-2 m-2 bg-pink-500"
-                    {...provided.dragHandleProps}
-                    {...provided.draggableProps}
-                    ref={provided.innerRef}
-                  >
-                    <p className="font-bold text-lg ">{item?.title}</p>
-                  </div>
-                )}
-              </Draggable>
+              item?.id && (
+                <Draggable draggableId={item?.id} index={index} key={item?.id}>
+                  {(provided) => (
+                    <div
+                      className="border-b  rounded-md flex flex-col p-2 m-2 bg-pink-500"
+                      {...provided.dragHandleProps}
+                      {...provided.draggableProps}
+                      ref={provided.innerRef}
+                    >
+                      <p className="font-bold text-lg ">{item?.title}</p>
+                      <div
+                        onClick={() => {
+                          dispatch(
+                            setRemoveItems({
+                              id: item?.id,
+                              col: id,
+                            })
+                          )
+                        }}
+                      >
+                        remove
+                      </div>
+                    </div>
+                  )}
+                </Draggable>
+              )
             )
           })}
           {provided.placeholder}
