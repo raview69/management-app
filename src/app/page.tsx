@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Column from "@/app/components/column/Column"
 import { NoSsr } from "./pages/NoSSR"
@@ -18,6 +18,12 @@ export default function Home() {
   const [data, setData] = useState(columns)
   console.log(items)
   console.log(columns)
+
+  useEffect(() => {
+    setColumnsOrder(columnsOrderState)
+    setData(columns)
+  }, [columnsOrderState, columns])
+
   const handleDragDrop = (results: any) => {
     const { source, destination, type } = results
 

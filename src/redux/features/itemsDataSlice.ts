@@ -26,8 +26,6 @@ const INITIAL_COL_DATA: { [key: string]: ColumnData } = {
   },
 }
 
-console.log(INITIAL_COL_DATA["column-1"].itemsOrder)
-
 const ITEMS = {
   "item-1": {
     id: "item-1",
