@@ -28,8 +28,15 @@ const itemsUpdateSlice = createSlice({
       state.description = action.payload.description
       state.priority = action.payload.priority
     },
+    setResetItems: (state) => {
+      state.id = ""
+      state.title = ""
+      state.col = ""
+      state.description = ""
+      state.priority = ""
+    },
   },
 })
 
-export const { setUpdateItems } = itemsUpdateSlice.actions
+export const { setUpdateItems, setResetItems } = itemsUpdateSlice.actions
 export default itemsUpdateSlice.reducer

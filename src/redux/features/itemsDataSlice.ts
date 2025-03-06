@@ -105,8 +105,29 @@ const itemsDataSlice = createSlice({
         (itemId) => itemId !== id
       )
     },
+    setUpdateDataItems: (
+      state,
+      action: {
+        payload: {
+          id: string
+          title: string
+          col: string
+          description: string
+          priority: string
+        }
+      }
+    ) => {
+      const { id, title, description, priority } = action.payload
+      state.items[id as keyof typeof state.items] = {
+        id,
+        title,
+        description,
+        priority,
+      }
+    },
   },
 })
 
-export const { setAddItems, setRemoveItems } = itemsDataSlice.actions
+export const { setAddItems, setRemoveItems, setUpdateDataItems } =
+  itemsDataSlice.actions
 export default itemsDataSlice.reducer

@@ -3,7 +3,10 @@
 import React, { useState, useEffect } from "react"
 import { RiArrowUpWideFill } from "react-icons/ri"
 import { FaGripLines } from "react-icons/fa6"
-import { setAddItems } from "@/redux/features/itemsDataSlice"
+import {
+  setAddItems,
+  setUpdateDataItems,
+} from "@/redux/features/itemsDataSlice"
 import { useDispatch } from "react-redux"
 import { closeModal } from "@/redux/features/modalSlice"
 import { toast } from "react-toastify"
@@ -54,6 +57,8 @@ const TodoForm: React.FC<TodoFormProps> = ({ column }) => {
       })
     }
   }, [id])
+
+  console.log(id)
 
   return (
     <div className="mt-10 w-[300px]">
@@ -126,25 +131,47 @@ const TodoForm: React.FC<TodoFormProps> = ({ column }) => {
       </div>
 
       <div className="sm:col-span-3 mt-10 flex justify-end">
-        <button
-          onClick={() => {
-            dispatch(setAddItems(data))
-            dispatch(closeModal())
-            toast.success("Add Task Success", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            })
-          }}
-          className="text-black cursor-pointer"
-        >
-          Submit
-        </button>
+        {id ? (
+          <button
+            onClick={() => {
+              dispatch(setUpdateDataItems(data))
+              dispatch(closeModal())
+              toast.success("Update Task Success", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              })
+            }}
+            className="text-black cursor-pointer"
+          >
+            Update
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              dispatch(setAddItems(data))
+              dispatch(closeModal())
+              toast.success("Add Task Success", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              })
+            }}
+            className="text-black cursor-pointer"
+          >
+            Submit
+          </button>
+        )}
       </div>
     </div>
   )

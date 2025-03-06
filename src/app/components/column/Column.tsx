@@ -10,7 +10,11 @@ import TodoForm from "../form/TodoForm"
 import { useSelector } from "react-redux"
 import { openModal, closeModal } from "@/redux/features/modalSlice"
 import { changeColumn } from "@/redux/features/columnSlice"
-import { setUpdateItems } from "@/redux/features/itemsUpdateSlice"
+import {
+  setUpdateItems,
+  setResetItems,
+} from "@/redux/features/itemsUpdateSlice"
+import { setUpdateDataItems } from "@/redux/features/itemsDataSlice"
 
 interface ColumnProps {
   itemsOrder: string[]
@@ -94,6 +98,7 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
             {provided.placeholder}
             <div
               onClick={() => {
+                dispatch(setResetItems())
                 dispatch(openModal())
                 dispatch(changeColumn(id))
               }}
