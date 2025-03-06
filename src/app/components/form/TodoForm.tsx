@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react"
 import { RiArrowUpWideFill } from "react-icons/ri"
@@ -6,18 +6,19 @@ import { FaGripLines } from "react-icons/fa6"
 import { setAddItems } from "@/redux/features/itemsDataSlice"
 import { useDispatch } from "react-redux"
 import { closeModal } from "@/redux/features/modalSlice"
+import { toast } from "react-toastify"
+import { useSelector } from "react-redux"
 
 interface TodoFormProps {
-  col: string
-  updateData: any
+  column: string
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({ col, updateData }) => {
+const TodoForm: React.FC<TodoFormProps> = ({ column }) => {
   const idRandom = Math.random().toString(36).substr(2, 4)
   const [data, setData] = useState({
     id: idRandom,
     title: "",
-    col: col,
+    col: column,
     description: "",
     priority: "medium",
   })
@@ -30,7 +31,29 @@ const TodoForm: React.FC<TodoFormProps> = ({ col, updateData }) => {
     })
   }
 
-  console.log(data)
+  const { id, title, col, description, priority } = useSelector(
+    (state: {
+      itemsUpdate: {
+        id: string
+        title: string
+        col: string
+        description: string
+        priority: string
+      }
+    }) => state.itemsUpdate
+  )
+
+  useEffect(() => {
+    if (id) {
+      setData({
+        id: id,
+        title: title,
+        col: col,
+        description: description,
+        priority: priority,
+      })
+    }
+  }, [id])
 
   return (
     <div className="mt-10 w-[300px]">
@@ -107,6 +130,16 @@ const TodoForm: React.FC<TodoFormProps> = ({ col, updateData }) => {
           onClick={() => {
             dispatch(setAddItems(data))
             dispatch(closeModal())
+            toast.success("Add Task Success", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            })
           }}
           className="text-black cursor-pointer"
         >

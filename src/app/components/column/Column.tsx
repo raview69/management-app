@@ -10,6 +10,7 @@ import TodoForm from "../form/TodoForm"
 import { useSelector } from "react-redux"
 import { openModal, closeModal } from "@/redux/features/modalSlice"
 import { changeColumn } from "@/redux/features/columnSlice"
+import { setUpdateItems } from "@/redux/features/itemsUpdateSlice"
 
 interface ColumnProps {
   itemsOrder: string[]
@@ -25,19 +26,10 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
   const { columnPlace } = useSelector(
     (state: { columns: { columnPlace: string } }) => state.columns
   )
-  const [data, setData] = useState({
-    id: null,
-    title: "",
-    col: columnPlace,
-    description: "",
-    priority: "medium",
-  })
 
   const { isOpen } = useSelector(
     (state: { modal: { isOpen: boolean } }) => state.modal
   )
-
-  console.log(columnPlace)
 
   return (
     <div>
@@ -65,6 +57,22 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
                           {item?.description}
                         </p>
                         <p className="font-bold text-lg ">{item?.priority}</p>
+                        <div
+                          onClick={() => {
+                            dispatch(openModal())
+                            dispatch(
+                              setUpdateItems({
+                                id: item.id,
+                                title: item.title,
+                                col: id,
+                                description: item.description,
+                                priority: item.priority,
+                              })
+                            )
+                          }}
+                        >
+                          Edit
+                        </div>
                         <div
                           onClick={() => {
                             dispatch(
@@ -102,7 +110,7 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
         modalClose={() => dispatch(closeModal())}
       >
         <div>
-          <TodoForm col={columnPlace} updateData={data} />
+          <TodoForm column={columnPlace} />
         </div>
       </ReactModal>
     </div>

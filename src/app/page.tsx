@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Column from "@/app/components/column/Column"
 import { useSelector } from "react-redux"
+import { ToastContainer } from "react-toastify"
 
 export default function Home() {
   const { columns, items, columnsOrderState } = useSelector(
@@ -142,6 +143,7 @@ export default function Home() {
           )}
         </Droppable>
       </DragDropContext>
+      <ToastContainer />
     </div>
   )
 }
