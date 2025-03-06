@@ -2,6 +2,7 @@
 
 import React from "react"
 import Modal from "react-modal"
+import { MdClose } from "react-icons/md"
 
 const customStyles = {
   content: {
@@ -11,6 +12,10 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+  },
+
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
 }
 
@@ -29,27 +34,20 @@ const ReactModal: React.FC<ModalProps> = ({
   modalIsOpen,
   modalClose,
 }) => {
-  const subtitle: HTMLHeadingElement | null = null
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    if (subtitle) {
-      subtitle.style.color = "#f00"
-    }
-  }
-
   return (
-    <div>
+    <div className="bg-white">
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         onRequestClose={modalClose}
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <button onClick={modalClose}>close</button>
-        <div>I am a modal</div>
-        <form>{children}</form>
+        <div>
+          <button onClick={modalClose} className="float-right cursor-pointer">
+            <MdClose className="text-2xl text-black" />
+          </button>
+        </div>
+        <div>{children}</div>
       </Modal>
     </div>
   )

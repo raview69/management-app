@@ -5,7 +5,6 @@ import { useState, useEffect } from "react"
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Column from "@/app/components/column/Column"
 import { useSelector } from "react-redux"
-import ReactModal from "./components/modal/ReactModal"
 
 export default function Home() {
   const { columns, items, columnsOrderState } = useSelector(
@@ -15,7 +14,6 @@ export default function Home() {
   )
   const [columnsOrder, setColumnsOrder] = useState(columnsOrderState)
   const [data, setData] = useState(columns)
-  const [modalIsOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     setColumnsOrder(columnsOrderState)
@@ -144,21 +142,6 @@ export default function Home() {
           )}
         </Droppable>
       </DragDropContext>
-      <div>
-        <div
-          onClick={() => {
-            setIsOpen(true)
-          }}
-        >
-          openModal
-        </div>
-        <ReactModal
-          modalIsOpen={modalIsOpen}
-          modalClose={() => setIsOpen(false)}
-        >
-          <div>dsada</div>
-        </ReactModal>
-      </div>
     </div>
   )
 }

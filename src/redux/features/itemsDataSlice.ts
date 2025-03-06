@@ -12,17 +12,17 @@ const INITIAL_COL_DATA: { [key: string]: ColumnData } = {
   "column-1": {
     id: "column-1",
     title: "TO DO",
-    itemsOrder: ["item-1", "item-2", "item-3"],
+    itemsOrder: ["item-1", "item-2"],
   },
   "column-2": {
     id: "column-2",
     title: "IN PROGRESS",
-    itemsOrder: ["item-4", "item-5"],
+    itemsOrder: ["item-3", "item-4"],
   },
   "column-3": {
     id: "column-3",
     title: "DONE",
-    itemsOrder: ["item-6", "item-7", "item-8", "item-9"],
+    itemsOrder: ["item-5", "item-6"],
   },
 }
 
@@ -37,13 +37,13 @@ const ITEMS = {
     id: "item-2",
     title: "Item 2",
     description: "This is item 1",
-    priority: "high",
+    priority: "medium",
   },
   "item-3": {
     id: "item-3",
     title: "Item 3",
     description: "This is item 1",
-    priority: "high",
+    priority: "low",
   },
   "item-4": {
     id: "item-4",
@@ -60,24 +60,6 @@ const ITEMS = {
   "item-6": {
     id: "item-6",
     title: "Item 6",
-    description: "This is item 1",
-    priority: "high",
-  },
-  "item-7": {
-    id: "item-7",
-    title: "Item 7",
-    description: "This is item 1",
-    priority: "high",
-  },
-  "item-8": {
-    id: "item-8",
-    title: "Item 8",
-    description: "This is item 1",
-    priority: "high",
-  },
-  "item-9": {
-    id: "item-9",
-    title: "Item 9",
     description: "This is item 1",
     priority: "high",
   },
