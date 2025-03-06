@@ -93,8 +93,8 @@ export default function Home() {
   }
 
   return (
-    <div className="flex h-full w-full items-center  flex-col">
-      <p className="font-bold text-4xl bg-gradient-to-r from-purple-600 via-blue-400 to-indigo-400  mt-10 text-transparent bg-clip-text">
+    <div className="flex h-full w-full items-center  flex-col ">
+      <p className="font-bold text-4xl bg-gradient-to-r from-white via-blue-400 to-indigo-200  mt-10 text-transparent bg-clip-text">
         MANAGMENET APP
       </p>
       {/* Set up DragDropContext */}
@@ -103,7 +103,7 @@ export default function Home() {
         <Droppable droppableId="ROOT" type="COLUMN" direction="horizontal">
           {(provided) => (
             <div
-              className="flex  items-center w-full md:max-w-6xl justify-center border min-h-96 py-4 mt-6 rounded-md overflow-x-scroll md:overflow-hidden"
+              className="flex  bg-[#E6F1F8] items-start w-full md:max-w-6xl justify-center border min-h-96 py-4 mt-6 rounded-md overflow-x-scroll md:overflow-hidden"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -118,7 +118,7 @@ export default function Home() {
                   >
                     {(provided) => (
                       <div
-                        className="rounded-md border flex flex-col max-w-xs mx-3"
+                        className="rounded-md border flex flex-col max-w-xs mx-3 text-black bg-white"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                       >

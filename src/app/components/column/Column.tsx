@@ -14,7 +14,11 @@ import {
   setUpdateItems,
   setResetItems,
 } from "@/redux/features/itemsUpdateSlice"
-import { setUpdateDataItems } from "@/redux/features/itemsDataSlice"
+import { toast } from "react-toastify"
+import { RiArrowUpWideFill } from "react-icons/ri"
+import { FaGripLines } from "react-icons/fa6"
+import { AiFillEdit } from "react-icons/ai"
+import { MdDelete } from "react-icons/md"
 
 interface ColumnProps {
   itemsOrder: string[]
@@ -41,7 +45,7 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
         {(provided) => (
           <div
             ref={provided.innerRef}
-            className="flex flex-col w-full min-h-60 h-fit"
+            className="flex flex-col w-full min-h-80 h-fit"
           >
             {itemsOrder.map((item_id, index) => {
               const item = ITEMS[item_id]
@@ -51,43 +55,72 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
                   <Draggable draggableId={item?.id} index={index} key={index}>
                     {(provided) => (
                       <div
-                        className="border-b  rounded-md flex flex-col p-2 m-2 bg-pink-500"
+                        className="border rounded-md flex flex-col p-4 m-2 bg-white text-black"
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
                         ref={provided.innerRef}
                       >
-                        <p className="font-bold text-lg ">{item?.title}</p>
-                        <p className="font-bold text-lg ">
-                          {item?.description}
-                        </p>
-                        <p className="font-bold text-lg ">{item?.priority}</p>
-                        <div
-                          onClick={() => {
-                            dispatch(openModal())
-                            dispatch(
-                              setUpdateItems({
-                                id: item.id,
-                                title: item.title,
-                                col: id,
-                                description: item.description,
-                                priority: item.priority,
-                              })
-                            )
-                          }}
-                        >
-                          Edit
+                        <div className="flex justify-between">
+                          <p className="font-bold text-lg ">{item?.title}</p>
+                          {item?.priority === "high" && (
+                            <p className="font-bold text-lg ">
+                              <RiArrowUpWideFill className="text-2xl text-red-600" />
+                            </p>
+                          )}
+                          {item?.priority === "low" && (
+                            <p className="font-bold text-lg ">
+                              <RiArrowUpWideFill className="text-2xl text-blue-600 rotate-180" />
+                            </p>
+                          )}
+                          {item?.priority === "medium" && (
+                            <p className="font-bold text-lg ">
+                              <FaGripLines className="text-2xl text-amber-400 rotate-180" />
+                            </p>
+                          )}
                         </div>
-                        <div
-                          onClick={() => {
-                            dispatch(
-                              setRemoveItems({
-                                id: item?.id,
-                                col: id,
+                        <div className="min-h-20 flex items-center justify-start">
+                          <p className="">{item?.description}</p>
+                        </div>
+
+                        <div className="flex justify-between">
+                          <div
+                            onClick={() => {
+                              dispatch(openModal())
+                              dispatch(
+                                setUpdateItems({
+                                  id: item.id,
+                                  title: item.title,
+                                  col: id,
+                                  description: item.description,
+                                  priority: item.priority,
+                                })
+                              )
+                            }}
+                          >
+                            <AiFillEdit className="text-2xl text-black cursor-pointer" />
+                          </div>
+                          <div
+                            onClick={() => {
+                              dispatch(
+                                setRemoveItems({
+                                  id: item?.id,
+                                  col: id,
+                                })
+                              )
+                              toast.success("Delete Task Success", {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: false,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
                               })
-                            )
-                          }}
-                        >
-                          remove
+                            }}
+                          >
+                            <MdDelete className="text-2xl text-red-600 cursor-pointer" />
+                          </div>
                         </div>
                       </div>
                     )}
@@ -102,7 +135,7 @@ const Column = ({ itemsOrder, id, ITEMS }: ColumnProps) => {
                 dispatch(openModal())
                 dispatch(changeColumn(id))
               }}
-              className="p-2 bg-green-500 rounded-md text-white text-center cursor-pointer"
+              className="p-2 bg-[#006cb5] rounded-md text-white text-center cursor-pointer ml-2 mb-2"
               style={{ width: "fit-content" }}
             >
               Add item

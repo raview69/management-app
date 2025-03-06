@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useState, useEffect } from "react"
-import { RiArrowUpWideFill } from "react-icons/ri"
-import { FaGripLines } from "react-icons/fa6"
 import {
   setAddItems,
   setUpdateDataItems,
@@ -111,9 +109,9 @@ const TodoForm: React.FC<TodoFormProps> = ({ column }) => {
         </label>
         <div className="mt-2 grid grid-cols-1">
           <select
-            defaultValue={data.priority}
             id="priority"
             name="priority"
+            value={data.priority ? data.priority : "medium"}
             onChange={(e) =>
               setData({
                 ...data,
@@ -147,12 +145,13 @@ const TodoForm: React.FC<TodoFormProps> = ({ column }) => {
                 theme: "light",
               })
             }}
-            className="text-black cursor-pointer"
+            className="p-2 bg-green-500 rounded-md text-white text-center cursor-pointer"
           >
             Update
           </button>
         ) : (
           <button
+            className="p-2 bg-[#006cb5] rounded-md text-white text-center cursor-pointer"
             onClick={() => {
               dispatch(setAddItems(data))
               dispatch(closeModal())
@@ -167,7 +166,6 @@ const TodoForm: React.FC<TodoFormProps> = ({ column }) => {
                 theme: "light",
               })
             }}
-            className="text-black cursor-pointer"
           >
             Submit
           </button>
