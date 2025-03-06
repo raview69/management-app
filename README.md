@@ -5,6 +5,13 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
+# to run first clone
+git clone https://github.com/raview69/management-app.git
+# install the dependency
+yarn install
+#or
+npm install
+#to start development
 npm run dev
 # or
 yarn dev
