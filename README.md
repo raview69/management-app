@@ -9,7 +9,7 @@ First, run the development server:
 git clone https://github.com/raview69/management-app.git
 # install the dependency
 yarn install
-#or
+#or prefer using yarn
 npm install
 #to start development
 npm run dev
